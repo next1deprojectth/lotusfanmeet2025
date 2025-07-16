@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Embed Countdown</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+    }
+
+    iframe {
+      width: 100%;
+      height: 250px;
+      border: none;
+      overflow: hidden;
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+
+  <iframe 
+    src="https://next1deprojectth.github.io/lotusfanmeet2025/countdown_section.html"
+    scrolling="no"
+    allowtransparency="true">
+  </iframe>
+
+</body>
+</html>
