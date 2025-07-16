@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Donate Progress & Countdown</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+       background: transparent;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: 'Noto Sans Thai', sans-serif;
+      overflow: hidden;
+    }
+ .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0px;
+      height: 100%;
+}
+   .content-container {
+  background: rgba(255, 255, 255, 0); /* หรือ 0.1-0.3 สำหรับโปร่งใสบางส่วน */
+  backdrop-filter: blur(10px); /* ถ้าอยากให้เบลอ */
+  border-radius: 20px;
+  box-shadow: none;
+  padding: 30px;
+  width: 100%;
+  max-width: 1000px;
+  gap: 40px;
+}
+
+
+   
+    .donation-section,
+    .countdown-section {
+      flex: 1;
+      text-align: center;
+    }
+
+    .progress-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 0px;
+    }
+
+    .stat-block {
+      font-size: clamp(18px, 4vw, 24px);
+      font-weight: 500;
+      color: #444;
+    }
+
+    .stat-number {
+      font-size: clamp(28px, 7vw, 48px);
+      font-weight: 700;
+      color: #2e7d32;
+    }
+
+    .remaining-text {
+      font-size: clamp(14px, 3vw, 18px);
+      color: #d32f2f;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .progress-bar {
+      background: #ddd;
+      border-radius: 20px;
+      overflow: hidden;
+      height: 30px;
+      width: 100%;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(to right, #00c853, #64dd17);
+      transition: width 1s ease-in-out;
+      border-radius: 20px 0 0 20px;
+    }
+
+    .countdown-container h2 {
+      font-size: clamp(22px, 5vw, 28px);
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .countdown-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: clamp(28px, 7vw, 52px);
+      font-weight: bold;
+    }
+
+    .countdown-row > div {
+      text-align: center;
+    }
+
+    .countdown-row span {
+      display: block;
+    }
+
+    .countdown-row div div {
+      font-size: clamp(14px, 3vw, 18px);
+      margin-top: 5px;
+    }
+
+    .colon {
+      font-size: clamp(28px, 7vw, 52px);
+      line-height: 1;
+      padding-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="content-container">
+
+<!-- Countdown Section -->
+      <div class="countdown-section countdown-container">
+        <h2>เหลือเวลาอีก</h2>
+        <div class="countdown-row" id="countdown">
+          <div><span id="days">00</span><div>วันจ้า</div></div>
+          <div class="colon">:</div>
+          <div><span id="hours">00</span><div>ชั่วโมง</div></div>
+          <div class="colon">:</div>
+          <div><span id="minutes">00</span><div>นาที</div></div>
+          <div class="colon">:</div>
+          <div><span id="seconds">00</span><div>วินาที</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  function updateCountdown() {
+    const endDate = new Date("2025-08-01T00:00:00+07:00");
+    const now = new Date();
+    const distance = endDate - now;
+
+    const countdownSection = document.querySelector('.countdown-section');
+    const heading = countdownSection.querySelector('h2');
+    const countdownDisplay = document.getElementById("countdown");
+
+    if (distance < 0) {
+      // ซ่อนหัวข้อ "เหลือเวลาอีก"
+      heading.style.display = "none";
+
+      // แสดงข้อความหมดเวลา
+      const endDateText = endDate.toLocaleDateString("th-TH", {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      });
+
+      countdownDisplay.innerHTML = `
+        <div style="font-size: 32px; color: #d32f2f; font-weight: bold;">
+          ปิดโดเนทแล้ว<br>
+          <span style="font-size: 18px; color: #555;">(สิ้นสุด ${endDateText} 23:59 น.)</span>
+        </div>
+      `;
+      return;
+    }
+
+    const days = String(Math.floor(distance / (1000 * 60 * 60 * 24))).padStart(2, "0");
+    const hours = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, "0");
+    const minutes = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, "0");
+    const seconds = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, "0");
+
+    document.getElementById("days").innerText = days;
+    document.getElementById("hours").innerText = hours;
+    document.getElementById("minutes").innerText = minutes;
+    document.getElementById("seconds").innerText = seconds;
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+</script>
+
+</body>
+</html>
